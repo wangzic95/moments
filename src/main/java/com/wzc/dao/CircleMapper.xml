@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wzc.dao.CircleMapper" >
+  <resultMap id="BaseResultMap" type="com.wzc.bean.Circle" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CIRCLE_NAME" property="circleName" jdbcType="VARCHAR" />
+    <result column="CIRCLE_USERID" property="circleUserid" jdbcType="INTEGER" />
+    <result column="CIRCLE_USERNAME" property="circleUsername" jdbcType="VARCHAR" />
+    <result column="CIRCLE_DESCRIPTION" property="circleDescription" jdbcType="VARCHAR" />
+    <result column="CIRCLE_PHOTO" property="circlePhoto" jdbcType="VARCHAR" />
+    <result column="CIRCLE_STATE" property="circleState" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, CIRCLE_NAME, CIRCLE_USERID, CIRCLE_USERNAME, CIRCLE_DESCRIPTION, CIRCLE_PHOTO, 
+    CIRCLE_STATE, CREATETIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wzc.bean.CircleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_circle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_circle
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_circle
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wzc.bean.CircleExample" >
+    delete from t_circle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wzc.bean.Circle" useGeneratedKeys="true" keyProperty="id">
+    insert into t_circle (ID, CIRCLE_NAME, CIRCLE_USERID, 
+      CIRCLE_USERNAME, CIRCLE_DESCRIPTION, CIRCLE_PHOTO, 
+      CIRCLE_STATE, CREATETIME)
+    values (#{id,jdbcType=INTEGER}, #{circleName,jdbcType=VARCHAR}, #{circleUserid,jdbcType=INTEGER}, 
+      #{circleUsername,jdbcType=VARCHAR}, #{circleDescription,jdbcType=VARCHAR}, #{circlePhoto,jdbcType=VARCHAR}, 
+      #{circleState,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wzc.bean.Circle" >
+    insert into t_circle
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="circleName != null" >
+        CIRCLE_NAME,
+      </if>
+      <if test="circleUserid != null" >
+        CIRCLE_USERID,
+      </if>
+      <if test="circleUsername != null" >
+        CIRCLE_USERNAME,
+      </if>
+      <if test="circleDescription != null" >
+        CIRCLE_DESCRIPTION,
+      </if>
+      <if test="circlePhoto != null" >
+        CIRCLE_PHOTO,
+      </if>
+      <if test="circleState != null" >
+        CIRCLE_STATE,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="circleName != null" >
+        #{circleName,jdbcType=VARCHAR},
+      </if>
+      <if test="circleUserid != null" >
+        #{circleUserid,jdbcType=INTEGER},
+      </if>
+      <if test="circleUsername != null" >
+        #{circleUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="circleDescription != null" >
+        #{circleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="circlePhoto != null" >
+        #{circlePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="circleState != null" >
+        #{circleState,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wzc.bean.CircleExample" resultType="java.lang.Integer" >
+    select count(*) from t_circle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_circle
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.circleName != null" >
+        CIRCLE_NAME = #{record.circleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.circleUserid != null" >
+        CIRCLE_USERID = #{record.circleUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.circleUsername != null" >
+        CIRCLE_USERNAME = #{record.circleUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.circleDescription != null" >
+        CIRCLE_DESCRIPTION = #{record.circleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.circlePhoto != null" >
+        CIRCLE_PHOTO = #{record.circlePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.circleState != null" >
+        CIRCLE_STATE = #{record.circleState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_circle
+    set ID = #{record.id,jdbcType=INTEGER},
+      CIRCLE_NAME = #{record.circleName,jdbcType=VARCHAR},
+      CIRCLE_USERID = #{record.circleUserid,jdbcType=INTEGER},
+      CIRCLE_USERNAME = #{record.circleUsername,jdbcType=VARCHAR},
+      CIRCLE_DESCRIPTION = #{record.circleDescription,jdbcType=VARCHAR},
+      CIRCLE_PHOTO = #{record.circlePhoto,jdbcType=VARCHAR},
+      CIRCLE_STATE = #{record.circleState,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wzc.bean.Circle" >
+    update t_circle
+    <set >
+      <if test="circleName != null" >
+        CIRCLE_NAME = #{circleName,jdbcType=VARCHAR},
+      </if>
+      <if test="circleUserid != null" >
+        CIRCLE_USERID = #{circleUserid,jdbcType=INTEGER},
+      </if>
+      <if test="circleUsername != null" >
+        CIRCLE_USERNAME = #{circleUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="circleDescription != null" >
+        CIRCLE_DESCRIPTION = #{circleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="circlePhoto != null" >
+        CIRCLE_PHOTO = #{circlePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="circleState != null" >
+        CIRCLE_STATE = #{circleState,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wzc.bean.Circle" >
+    update t_circle
+    set CIRCLE_NAME = #{circleName,jdbcType=VARCHAR},
+      CIRCLE_USERID = #{circleUserid,jdbcType=INTEGER},
+      CIRCLE_USERNAME = #{circleUsername,jdbcType=VARCHAR},
+      CIRCLE_DESCRIPTION = #{circleDescription,jdbcType=VARCHAR},
+      CIRCLE_PHOTO = #{circlePhoto,jdbcType=VARCHAR},
+      CIRCLE_STATE = #{circleState,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        SELECT a.* FROM t_circle a LEFT JOIN t_relation b ON a.ID = b.VID WHERE b.TYPE ='circle' AND b.KID = #{userid,jdbcType=INTEGER}
+        UNION ALL
+	    SELECT a.* FROM t_circle a LEFT JOIN t_relation b ON a.ID = b.KID WHERE b.TYPE ='circle' AND b.VID = #{userid,jdbcType=INTEGER}
+  </select>
+</mapper>

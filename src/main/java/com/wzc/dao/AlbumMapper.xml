@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wzc.dao.AlbumMapper" >
+  <resultMap id="BaseResultMap" type="com.wzc.bean.Album" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ALBUM_NAME" property="albumName" jdbcType="VARCHAR" />
+    <result column="ALBUM_COVER" property="albumCover" jdbcType="VARCHAR" />
+    <result column="ALBUM_USERID" property="albumUserid" jdbcType="INTEGER" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ALBUM_NAME, ALBUM_COVER, ALBUM_USERID, CREATETIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wzc.bean.AlbumExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_album
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_album
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_album
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wzc.bean.AlbumExample" >
+    delete from t_album
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wzc.bean.Album" >
+    insert into t_album (ID, ALBUM_NAME, ALBUM_COVER, 
+      ALBUM_USERID, CREATETIME)
+    values (#{id,jdbcType=INTEGER}, #{albumName,jdbcType=VARCHAR}, #{albumCover,jdbcType=VARCHAR}, 
+      #{albumUserid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wzc.bean.Album" >
+    insert into t_album
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="albumName != null" >
+        ALBUM_NAME,
+      </if>
+      <if test="albumCover != null" >
+        ALBUM_COVER,
+      </if>
+      <if test="albumUserid != null" >
+        ALBUM_USERID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="albumName != null" >
+        #{albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumCover != null" >
+        #{albumCover,jdbcType=VARCHAR},
+      </if>
+      <if test="albumUserid != null" >
+        #{albumUserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wzc.bean.AlbumExample" resultType="java.lang.Integer" >
+    select count(*) from t_album
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_album
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.albumName != null" >
+        ALBUM_NAME = #{record.albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.albumCover != null" >
+        ALBUM_COVER = #{record.albumCover,jdbcType=VARCHAR},
+      </if>
+      <if test="record.albumUserid != null" >
+        ALBUM_USERID = #{record.albumUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_album
+    set ID = #{record.id,jdbcType=INTEGER},
+      ALBUM_NAME = #{record.albumName,jdbcType=VARCHAR},
+      ALBUM_COVER = #{record.albumCover,jdbcType=VARCHAR},
+      ALBUM_USERID = #{record.albumUserid,jdbcType=INTEGER},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wzc.bean.Album" >
+    update t_album
+    <set >
+      <if test="albumName != null" >
+        ALBUM_NAME = #{albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumCover != null" >
+        ALBUM_COVER = #{albumCover,jdbcType=VARCHAR},
+      </if>
+      <if test="albumUserid != null" >
+        ALBUM_USERID = #{albumUserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wzc.bean.Album" >
+    update t_album
+    set ALBUM_NAME = #{albumName,jdbcType=VARCHAR},
+      ALBUM_COVER = #{albumCover,jdbcType=VARCHAR},
+      ALBUM_USERID = #{albumUserid,jdbcType=INTEGER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

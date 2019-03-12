@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wzc.dao.TopicMapper" >
+  <resultMap id="BaseResultMap" type="com.wzc.bean.Topic" >
+    <id column="TID" property="tid" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="ATTACHMENT" property="attachment" jdbcType="INTEGER" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="USERID" property="userid" jdbcType="INTEGER" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="CIRCLEID" property="circleid" jdbcType="INTEGER" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="IS_RECOM" property="isRecom" jdbcType="VARCHAR" />
+    <result column="COM_TOTAL" property="comTotal" jdbcType="INTEGER" />
+    <result column="VIEW_TOTAL" property="viewTotal" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.wzc.bean.Topic" extends="BaseResultMap" >
+    <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    TID, TITLE, ATTACHMENT, CREATETIME, USERID, USERNAME, CIRCLEID, STATE, IS_RECOM, 
+    COM_TOTAL, VIEW_TOTAL
+  </sql>
+  <sql id="Blob_Column_List" >
+    CONTENT
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.wzc.bean.TopicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wzc.bean.TopicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_topic
+    where TID = #{tid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_topic
+    where TID = #{tid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wzc.bean.TopicExample" >
+    delete from t_topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wzc.bean.Topic" >
+    insert into t_topic (TID, TITLE, ATTACHMENT, 
+      CREATETIME, USERID, USERNAME, 
+      CIRCLEID, STATE, IS_RECOM, 
+      COM_TOTAL, VIEW_TOTAL, CONTENT
+      )
+    values (#{tid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{attachment,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{circleid,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR}, #{isRecom,jdbcType=VARCHAR}, 
+      #{comTotal,jdbcType=INTEGER}, #{viewTotal,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wzc.bean.Topic" >
+    insert into t_topic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tid != null" >
+        TID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="attachment != null" >
+        ATTACHMENT,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="circleid != null" >
+        CIRCLEID,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="isRecom != null" >
+        IS_RECOM,
+      </if>
+      <if test="comTotal != null" >
+        COM_TOTAL,
+      </if>
+      <if test="viewTotal != null" >
+        VIEW_TOTAL,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tid != null" >
+        #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="circleid != null" >
+        #{circleid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="isRecom != null" >
+        #{isRecom,jdbcType=VARCHAR},
+      </if>
+      <if test="comTotal != null" >
+        #{comTotal,jdbcType=INTEGER},
+      </if>
+      <if test="viewTotal != null" >
+        #{viewTotal,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wzc.bean.TopicExample" resultType="java.lang.Integer" >
+    select count(*) from t_topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_topic
+    <set >
+      <if test="record.tid != null" >
+        TID = #{record.tid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachment != null" >
+        ATTACHMENT = #{record.attachment,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userid != null" >
+        USERID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        USERNAME = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.circleid != null" >
+        CIRCLEID = #{record.circleid,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isRecom != null" >
+        IS_RECOM = #{record.isRecom,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comTotal != null" >
+        COM_TOTAL = #{record.comTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.viewTotal != null" >
+        VIEW_TOTAL = #{record.viewTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null" >
+        CONTENT = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_topic
+    set TID = #{record.tid,jdbcType=INTEGER},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      ATTACHMENT = #{record.attachment,jdbcType=INTEGER},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      USERID = #{record.userid,jdbcType=INTEGER},
+      USERNAME = #{record.username,jdbcType=VARCHAR},
+      CIRCLEID = #{record.circleid,jdbcType=INTEGER},
+      STATE = #{record.state,jdbcType=VARCHAR},
+      IS_RECOM = #{record.isRecom,jdbcType=VARCHAR},
+      COM_TOTAL = #{record.comTotal,jdbcType=INTEGER},
+      VIEW_TOTAL = #{record.viewTotal,jdbcType=INTEGER},
+      CONTENT = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_topic
+    set TID = #{record.tid,jdbcType=INTEGER},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      ATTACHMENT = #{record.attachment,jdbcType=INTEGER},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      USERID = #{record.userid,jdbcType=INTEGER},
+      USERNAME = #{record.username,jdbcType=VARCHAR},
+      CIRCLEID = #{record.circleid,jdbcType=INTEGER},
+      STATE = #{record.state,jdbcType=VARCHAR},
+      IS_RECOM = #{record.isRecom,jdbcType=VARCHAR},
+      COM_TOTAL = #{record.comTotal,jdbcType=INTEGER},
+      VIEW_TOTAL = #{record.viewTotal,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wzc.bean.Topic" >
+    update t_topic
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        ATTACHMENT = #{attachment,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="circleid != null" >
+        CIRCLEID = #{circleid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="isRecom != null" >
+        IS_RECOM = #{isRecom,jdbcType=VARCHAR},
+      </if>
+      <if test="comTotal != null" >
+        COM_TOTAL = #{comTotal,jdbcType=INTEGER},
+      </if>
+      <if test="viewTotal != null" >
+        VIEW_TOTAL = #{viewTotal,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where TID = #{tid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wzc.bean.Topic" >
+    update t_topic
+    set TITLE = #{title,jdbcType=VARCHAR},
+      ATTACHMENT = #{attachment,jdbcType=INTEGER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      USERID = #{userid,jdbcType=INTEGER},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      CIRCLEID = #{circleid,jdbcType=INTEGER},
+      STATE = #{state,jdbcType=VARCHAR},
+      IS_RECOM = #{isRecom,jdbcType=VARCHAR},
+      COM_TOTAL = #{comTotal,jdbcType=INTEGER},
+      VIEW_TOTAL = #{viewTotal,jdbcType=INTEGER},
+      CONTENT = #{content,jdbcType=LONGVARCHAR}
+    where TID = #{tid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wzc.bean.Topic" >
+    update t_topic
+    set TITLE = #{title,jdbcType=VARCHAR},
+      ATTACHMENT = #{attachment,jdbcType=INTEGER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      USERID = #{userid,jdbcType=INTEGER},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      CIRCLEID = #{circleid,jdbcType=INTEGER},
+      STATE = #{state,jdbcType=VARCHAR},
+      IS_RECOM = #{isRecom,jdbcType=VARCHAR},
+      COM_TOTAL = #{comTotal,jdbcType=INTEGER},
+      VIEW_TOTAL = #{viewTotal,jdbcType=INTEGER}
+    where TID = #{tid,jdbcType=INTEGER}
+  </update>
+</mapper>

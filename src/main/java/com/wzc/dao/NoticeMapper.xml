@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wzc.dao.NoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.wzc.bean.Notice" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="NOTICE_TITLE" property="noticeTitle" jdbcType="VARCHAR" />
+    <result column="NOTICE_USERID" property="noticeUserid" jdbcType="INTEGER" />
+    <result column="NOTICE_USERNAME" property="noticeUsername" jdbcType="VARCHAR" />
+    <result column="NOTICE_TYPE" property="noticeType" jdbcType="VARCHAR" />
+    <result column="NOTICE_FILEID" property="noticeFileid" jdbcType="INTEGER" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.wzc.bean.Notice" extends="BaseResultMap" >
+    <result column="NOTICE_BODY" property="noticeBody" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, NOTICE_TITLE, NOTICE_USERID, NOTICE_USERNAME, NOTICE_TYPE, NOTICE_FILEID, CREATETIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    NOTICE_BODY
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.wzc.bean.NoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wzc.bean.NoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_notice
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_notice
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wzc.bean.NoticeExample" >
+    delete from t_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wzc.bean.Notice" >
+    insert into t_notice (ID, NOTICE_TITLE, NOTICE_USERID, 
+      NOTICE_USERNAME, NOTICE_TYPE, NOTICE_FILEID, 
+      CREATETIME, NOTICE_BODY)
+    values (#{id,jdbcType=INTEGER}, #{noticeTitle,jdbcType=VARCHAR}, #{noticeUserid,jdbcType=INTEGER}, 
+      #{noticeUsername,jdbcType=VARCHAR}, #{noticeType,jdbcType=VARCHAR}, #{noticeFileid,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{noticeBody,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wzc.bean.Notice" >
+    insert into t_notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="noticeTitle != null" >
+        NOTICE_TITLE,
+      </if>
+      <if test="noticeUserid != null" >
+        NOTICE_USERID,
+      </if>
+      <if test="noticeUsername != null" >
+        NOTICE_USERNAME,
+      </if>
+      <if test="noticeType != null" >
+        NOTICE_TYPE,
+      </if>
+      <if test="noticeFileid != null" >
+        NOTICE_FILEID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="noticeBody != null" >
+        NOTICE_BODY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="noticeTitle != null" >
+        #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeUserid != null" >
+        #{noticeUserid,jdbcType=INTEGER},
+      </if>
+      <if test="noticeUsername != null" >
+        #{noticeUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeType != null" >
+        #{noticeType,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeFileid != null" >
+        #{noticeFileid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticeBody != null" >
+        #{noticeBody,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wzc.bean.NoticeExample" resultType="java.lang.Integer" >
+    select count(*) from t_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_notice
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.noticeTitle != null" >
+        NOTICE_TITLE = #{record.noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeUserid != null" >
+        NOTICE_USERID = #{record.noticeUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.noticeUsername != null" >
+        NOTICE_USERNAME = #{record.noticeUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeType != null" >
+        NOTICE_TYPE = #{record.noticeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeFileid != null" >
+        NOTICE_FILEID = #{record.noticeFileid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.noticeBody != null" >
+        NOTICE_BODY = #{record.noticeBody,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_notice
+    set ID = #{record.id,jdbcType=INTEGER},
+      NOTICE_TITLE = #{record.noticeTitle,jdbcType=VARCHAR},
+      NOTICE_USERID = #{record.noticeUserid,jdbcType=INTEGER},
+      NOTICE_USERNAME = #{record.noticeUsername,jdbcType=VARCHAR},
+      NOTICE_TYPE = #{record.noticeType,jdbcType=VARCHAR},
+      NOTICE_FILEID = #{record.noticeFileid,jdbcType=INTEGER},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      NOTICE_BODY = #{record.noticeBody,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_notice
+    set ID = #{record.id,jdbcType=INTEGER},
+      NOTICE_TITLE = #{record.noticeTitle,jdbcType=VARCHAR},
+      NOTICE_USERID = #{record.noticeUserid,jdbcType=INTEGER},
+      NOTICE_USERNAME = #{record.noticeUsername,jdbcType=VARCHAR},
+      NOTICE_TYPE = #{record.noticeType,jdbcType=VARCHAR},
+      NOTICE_FILEID = #{record.noticeFileid,jdbcType=INTEGER},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wzc.bean.Notice" >
+    update t_notice
+    <set >
+      <if test="noticeTitle != null" >
+        NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeUserid != null" >
+        NOTICE_USERID = #{noticeUserid,jdbcType=INTEGER},
+      </if>
+      <if test="noticeUsername != null" >
+        NOTICE_USERNAME = #{noticeUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeType != null" >
+        NOTICE_TYPE = #{noticeType,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeFileid != null" >
+        NOTICE_FILEID = #{noticeFileid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticeBody != null" >
+        NOTICE_BODY = #{noticeBody,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wzc.bean.Notice" >
+    update t_notice
+    set NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      NOTICE_USERID = #{noticeUserid,jdbcType=INTEGER},
+      NOTICE_USERNAME = #{noticeUsername,jdbcType=VARCHAR},
+      NOTICE_TYPE = #{noticeType,jdbcType=VARCHAR},
+      NOTICE_FILEID = #{noticeFileid,jdbcType=INTEGER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      NOTICE_BODY = #{noticeBody,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wzc.bean.Notice" >
+    update t_notice
+    set NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      NOTICE_USERID = #{noticeUserid,jdbcType=INTEGER},
+      NOTICE_USERNAME = #{noticeUsername,jdbcType=VARCHAR},
+      NOTICE_TYPE = #{noticeType,jdbcType=VARCHAR},
+      NOTICE_FILEID = #{noticeFileid,jdbcType=INTEGER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

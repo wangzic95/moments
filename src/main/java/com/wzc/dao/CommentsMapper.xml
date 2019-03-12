@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wzc.dao.CommentsMapper" >
+  <resultMap id="BaseResultMap" type="com.wzc.bean.Comments" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="COMMENT_USERID" property="commentUserid" jdbcType="INTEGER" />
+    <result column="COMMENT_USERNAME" property="commentUsername" jdbcType="VARCHAR" />
+    <result column="COMMENT_BODY" property="commentBody" jdbcType="VARCHAR" />
+    <result column="COMMENT_ANNID" property="commentAnnid" jdbcType="INTEGER" />
+    <result column="COMMENT_TARGETID" property="commentTargetid" jdbcType="INTEGER" />
+    <result column="COMMENT_TARGETNAME" property="commentTargetname" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, COMMENT_USERID, COMMENT_USERNAME, COMMENT_BODY, COMMENT_ANNID, COMMENT_TARGETID, 
+    COMMENT_TARGETNAME, CREATETIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wzc.bean.CommentsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_comments
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_comments
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wzc.bean.CommentsExample" >
+    delete from t_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wzc.bean.Comments" >
+    insert into t_comments (ID, COMMENT_USERID, COMMENT_USERNAME, 
+      COMMENT_BODY, COMMENT_ANNID, COMMENT_TARGETID, 
+      COMMENT_TARGETNAME, CREATETIME)
+    values (#{id,jdbcType=INTEGER}, #{commentUserid,jdbcType=INTEGER}, #{commentUsername,jdbcType=VARCHAR}, 
+      #{commentBody,jdbcType=VARCHAR}, #{commentAnnid,jdbcType=INTEGER}, #{commentTargetid,jdbcType=INTEGER}, 
+      #{commentTargetname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wzc.bean.Comments" >
+    insert into t_comments
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="commentUserid != null" >
+        COMMENT_USERID,
+      </if>
+      <if test="commentUsername != null" >
+        COMMENT_USERNAME,
+      </if>
+      <if test="commentBody != null" >
+        COMMENT_BODY,
+      </if>
+      <if test="commentAnnid != null" >
+        COMMENT_ANNID,
+      </if>
+      <if test="commentTargetid != null" >
+        COMMENT_TARGETID,
+      </if>
+      <if test="commentTargetname != null" >
+        COMMENT_TARGETNAME,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="commentUserid != null" >
+        #{commentUserid,jdbcType=INTEGER},
+      </if>
+      <if test="commentUsername != null" >
+        #{commentUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="commentBody != null" >
+        #{commentBody,jdbcType=VARCHAR},
+      </if>
+      <if test="commentAnnid != null" >
+        #{commentAnnid,jdbcType=INTEGER},
+      </if>
+      <if test="commentTargetid != null" >
+        #{commentTargetid,jdbcType=INTEGER},
+      </if>
+      <if test="commentTargetname != null" >
+        #{commentTargetname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wzc.bean.CommentsExample" resultType="java.lang.Integer" >
+    select count(*) from t_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_comments
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentUserid != null" >
+        COMMENT_USERID = #{record.commentUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentUsername != null" >
+        COMMENT_USERNAME = #{record.commentUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentBody != null" >
+        COMMENT_BODY = #{record.commentBody,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentAnnid != null" >
+        COMMENT_ANNID = #{record.commentAnnid,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentTargetid != null" >
+        COMMENT_TARGETID = #{record.commentTargetid,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentTargetname != null" >
+        COMMENT_TARGETNAME = #{record.commentTargetname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_comments
+    set ID = #{record.id,jdbcType=INTEGER},
+      COMMENT_USERID = #{record.commentUserid,jdbcType=INTEGER},
+      COMMENT_USERNAME = #{record.commentUsername,jdbcType=VARCHAR},
+      COMMENT_BODY = #{record.commentBody,jdbcType=VARCHAR},
+      COMMENT_ANNID = #{record.commentAnnid,jdbcType=INTEGER},
+      COMMENT_TARGETID = #{record.commentTargetid,jdbcType=INTEGER},
+      COMMENT_TARGETNAME = #{record.commentTargetname,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wzc.bean.Comments" >
+    update t_comments
+    <set >
+      <if test="commentUserid != null" >
+        COMMENT_USERID = #{commentUserid,jdbcType=INTEGER},
+      </if>
+      <if test="commentUsername != null" >
+        COMMENT_USERNAME = #{commentUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="commentBody != null" >
+        COMMENT_BODY = #{commentBody,jdbcType=VARCHAR},
+      </if>
+      <if test="commentAnnid != null" >
+        COMMENT_ANNID = #{commentAnnid,jdbcType=INTEGER},
+      </if>
+      <if test="commentTargetid != null" >
+        COMMENT_TARGETID = #{commentTargetid,jdbcType=INTEGER},
+      </if>
+      <if test="commentTargetname != null" >
+        COMMENT_TARGETNAME = #{commentTargetname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wzc.bean.Comments" >
+    update t_comments
+    set COMMENT_USERID = #{commentUserid,jdbcType=INTEGER},
+      COMMENT_USERNAME = #{commentUsername,jdbcType=VARCHAR},
+      COMMENT_BODY = #{commentBody,jdbcType=VARCHAR},
+      COMMENT_ANNID = #{commentAnnid,jdbcType=INTEGER},
+      COMMENT_TARGETID = #{commentTargetid,jdbcType=INTEGER},
+      COMMENT_TARGETNAME = #{commentTargetname,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
