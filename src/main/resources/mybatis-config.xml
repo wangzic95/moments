@@ -4,7 +4,7 @@
     <!-- 全局参数 -->
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="false"/>
-        <setting name="logImpl" value="LOG4J" />
+        <setting name="logImpl" value="STDOUT_LOGGING" />
         <!-- 使全局的映射器启用或禁用缓存。 -->
         <!--<setting name="cacheEnabled" value="true"/>-->
 

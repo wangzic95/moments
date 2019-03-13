@@ -26,9 +26,7 @@
         <property name="minEvictableIdleTimeMillis" value="${ds.minEvictableIdleTimeMillis}"/>
     </bean>
     <!-- 使用Annotation自动注册Bean，解决事物失效问题：在主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。-->
-    <context:component-scan base-package="com"><!-- base-package 如果多个，用“,”分隔 -->
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+    <context:component-scan base-package="com.wzc.service,com.wzc.bean"/><!-- base-package 如果多个，用“,”分隔 -->
 
     <!-- spring和MyBatis整合配置 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
