@@ -48,7 +48,7 @@
                 <div class="col-md-3 column">
                     <div class="panel panel-default">
                         <div class="panel-body" style="text-align: center;">
-                            <img src="${pageContext.request.contextPath}/${topicUser.photo}" class="img-circle" style="width: 80px;height: 80px;">
+                            <img src="${pageContext.request.contextPath}${topicUser.photo}" class="img-circle" style="width: 80px;height: 80px;">
                             <a style="font-size: 18px;margin: 10px;font-weight: bold;display: block;"
                                href="${pageContext.request.contextPath}/f/profile/${topicUser.userid}">${topicUser.username}</a>
                             <p style="color: #888;font-size: 13px;min-height: 30px;">${topicUser.signature}</p>
